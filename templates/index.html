@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <title>Teaching Software</title>
+    </header>
+    <body>
+        <form action="/" method="POST">
+            <input placeholder="First Name" name="name" required>
+            <input placeholder="Last Name" name="lastname">
+            <input placeholder="Email" name="email" required>
+            <input type="submit" value="Submit">
+        </form>
+        {% for user in users %}
+        <div>{{ user.first_name + ':' + user.last_name + ':' + user.email }}</div>
+        {% endfor %}
+    </body>
+</html>
