@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <table style="width: 100%;">
+            <tr>
+                <th>Number 1</th>
+                <th>Number 2</th>
+                <th>Answer</th>
+            </tr>
+            {% for test in tests %}
+            <tr style="text-align: center;">
+                <td>{{ test.Questions[0].Number_1 }}</td>
+                <td>{{ test.Questions[0].Number_2 }}</td>
+                <td><input placeholder="answer" name="answer"></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
+        <!-- {% for test in tests %}
+        <div>{{ test.Teacher + ':' + test.Test_Name  +" : "  }} Created At {{ test.Created_At}}</div>
+            {% for question in test.Questions %}
+            <div>SKATA {{ question.Number_1 , " times ",  question.Number_2  ," equals ",   question.Answer }}</div>
+            {% endfor %}
+        {% endfor %} -->

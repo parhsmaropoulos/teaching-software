@@ -5,20 +5,16 @@
     </header>
     <body>
         <form action="/test" method="POST">
-            <input placeholder="Teachers Name" name="teacher_name" required>
-            <input placeholder="Test Name" name="test_name">
-            <br>
-
-            <!-- <div action="/question" method="POST"> -->
-                <input placholder="Number 1" name="num1">
-                <input placholder="Number 2" name="num2">
-                <input placholder="Answer" name="answer">
-                <!-- <input type="button" value="Add Question"> -->
-            <!-- </form> -->
-            <input type="submit" value="Submit" >
+            <input placeholder="Teachers Name" name="teacher_name" required><br>
+            <input placeholder="Test Name" name="test_name"> <br>
+            <input placeholder="Number 1" name="num1"><br>
+            <input placeholder="Number 2" name="num2"><br>
+            <input placeholder="Answer" name="answer"><br>
+        <input type="submit" value="Submit" >
         </form>
+
         {% for test in tests %}
-        <div>{{ test.Teacher + ':' + test.Test_Name  +" : "  }} Created At {test.Created_At}}</div>
+        <div>{{ test.Teacher + ':' + test.Test_Name  +" : "  }} Created At {{ test.Created_At}}</div>
             {% for question in test.Questions %}
             <div>SKATA {{ question.Number_1 , " times ",  question.Number_2  ," equals ",   question.Answer }}</div>
             {% endfor %}

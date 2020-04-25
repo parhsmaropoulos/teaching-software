@@ -1,11 +1,14 @@
 from flask import Flask, render_template, request
 from flask_cors import CORS
+from flask_bcrypt import Bcrypt
 
 from models.tests import create_test, get_tests, Question
-from models.users import create_user,get_users
+from models.users import create_user, get_users, login_user
 
 app = Flask(__name__)
 CORS(app)
+bcrypt = Bcrypt(app)
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
@@ -15,22 +18,31 @@ def index():
     if request.method == "POST":
         name = request.form.get("name")
         lastname = request.form.get('lastname')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+        age = request.form.get('age')
         email = request.form.get("email")
-        create_user(name, lastname, email)
-
+        error = create_user(name, lastname, username, pw_hash, age, email)
+        if error != "":
+            print(error)
     users = get_users()
     return render_template('index.html', users = users)
 
-# @app.route('/question', methods= ['GET', 'POST'])
-# def question():
-#     if request.method == "GET":
-#         pass
-#     if request.method == "POST":
-#         num1 = request.form.get("num1")
-#         num2 = request.form.get("num2")
-#         ans = request.form.get("ans")
-#         question = {num1, num2, ans}
-#         questions.append(question)
+@app.route('/login', methods= ['GET', 'POST'])
+def login():
+    if request.method == "GET":
+        pass
+    if request.method == "POST":
+        email = request.form.get('logemail')
+        password = request.form.get('logpassword')
+        msg, logged_in = login_user(email, password)
+        if logged_in:
+            tests = get_tests()
+            return render_template('dashboard.html', msg = msg, tests = tests)
+        return render_template('login.html', msg = msg)
+    return render_template('index.html')
+        
 
 @app.route('/test', methods=['GET', 'POST'])
 def test():

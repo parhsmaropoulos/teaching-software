@@ -1,7 +1,7 @@
 from mongoengine import *
 import datetime
 
-connect('TeachingSoftware')
+connect('Teaching_Software')
 
 class Question(EmbeddedDocument):
     Number_1 = IntField(min_value=0,max_value=10)
@@ -23,6 +23,7 @@ def create_test(t, n, list):
         
 def get_tests():
     tests = []
+    
     for test in Test.objects:
         tests.append(test)
     return tests
