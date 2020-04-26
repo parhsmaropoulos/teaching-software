@@ -1,0 +1,2 @@
+# SEND REQUEST
+GET  http://localhost:5000/users

@@ -1,11 +1,17 @@
-import React, {Button} from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import getusers from './actions/users'
+import {getUsers} from './actions/users'
 
-function App() {
-  return (
-    <div className="App">
+class App extends Component {
+  componentDidMount() {
+    console.log(this.props);
+    getUsers();
+  }
+  
+  render(){
+    return (
+      <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -16,13 +22,14 @@ function App() {
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
-        >
+          >
           Learn React
         </a>
-        <button onClick={() => getusers}> Data</button>
       </header>
+      <button onClick={getUsers()}>Click me</button>
     </div>
   );
+}
 }
 
 export default App;

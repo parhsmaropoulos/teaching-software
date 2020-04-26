@@ -1,13 +1,21 @@
-from flask import Flask, render_template, request
-from flask_cors import CORS
+from flask import Flask, render_template, request, Response
+from flask_cors import CORS, cross_origin
 from flask_bcrypt import Bcrypt
+import json
 
 from models.tests import create_test, get_tests, Question
 from models.users import create_user, get_users, login_user
 
 app = Flask(__name__)
-CORS(app)
 bcrypt = Bcrypt(app)
+CORS(app)
+
+@app.route('/users')
+def resp():
+    response = Response()
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.data = get_users()
+    return response
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -27,7 +35,8 @@ def index():
         if error != "":
             print(error)
     users = get_users()
-    return render_template('index.html', users = users)
+    # return render_template('index.html', users = users)
+    return users
 
 @app.route('/login', methods= ['GET', 'POST'])
 def login():

@@ -1,6 +1,7 @@
 from mongoengine import *
 from flask_bcrypt import Bcrypt
 import datetime
+import json
 
 connect('Teaching_Software')
 
@@ -31,11 +32,13 @@ def create_user(f , l, u, p, a, e):
     return error
 
 def get_users():
-    users = []
 
-    for user in User.objects:
-        users.append(user)
-    return users
+    q_set = User.objects()
+    json_users = q_set.to_json()
+    # users = []
+    # for user in User.objects:
+    #     # users.append(user)
+    return json_users
 
 def login_user(e, p):
     error = ""
