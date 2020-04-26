@@ -1,7 +1,14 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
-import './App.css';
 import {getUsers} from './actions/users'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import LogIn from './components/pages/LogIn';
+import Register from './components/pages/Register';
+import TestRegister from './components/pages/TestRegister';
 
 class App extends Component {
   componentDidMount() {
@@ -11,23 +18,43 @@ class App extends Component {
   
   render(){
     return (
-      <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-          >
-          Learn React
-        </a>
-      </header>
-      <button onClick={getUsers()}>Click me</button>
-    </div>
+      <Router>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/register">Register</Link>
+              </li>
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+              <li>
+                <Link to="/testregister">Register Test</Link>
+              </li>
+            </ul>
+          </nav>
+
+          <Switch>
+            <Route path="/testregister">
+              <TestRegister/>
+            </Route>
+            <Route path="/login">
+              <LogIn/>
+            </Route>
+            <Route path="/register">
+              <Register/>
+            </Route>
+            <Route path="/">
+              <div>
+                <h2>Home</h2>
+              </div>
+            </Route>
+          </Switch>
+        </div>
+      </Router>
   );
 }
 }
