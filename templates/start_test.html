@@ -79,6 +79,14 @@
                         <span class="navbar-toggler-bar burger-lines"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                        <ul class="nav navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link" data-toggle="dropdown">
+                                    <i class="nc-icon nc-palette"></i>
+                                    <span class="d-lg-none">Dashboard</span>
+                                </a>
+                            </li>
+                        </ul>
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
                                 <a class="nav-link" href="./user/{{ session.user_id }}">
@@ -103,59 +111,51 @@
                                  <div class="card-header ">
                                      <div class="row">
                                          <div class='col-sm-4'>
-                                             <h4 class="card-title">Test List</h4>
+                                             <h4 class="card-title">From : {{ test.Teacher }}</h4>
                                         </div>
                                         <div class='col-sm-4'>
+                                            <h4 class="card-title">For Number : {{ test.For_Number }}</h4>
                                        </div>
                                        <div class='col-sm-4'>
-                                            {% if session.user_type == 'teacher' %}
-                                            <a role="button" class="btn btn-primary" href="/create_test">
-                                                Create Test
-                                            </a>
-                                            {% endif %}
+                                            <h4 class="card-title">Test Name : {{ test.Test_Name }}</h4>
                                         </div>
                                     </div>
                                  </div>
-                                 <div class="card-body table-full-width table-responsive">
-                                     <table class="table table-hover">
-                                        <thead>
-                                            <th>Teacher</th>
-                                            <th>Test Name</th>
-                                            <th>For Number</th>
-                                            <th>Number of Questions</th>
-                                            <th></th>
-                                        </thead>
-                                        <tbody>
-                                            {% for test in tests %}
-                                                <tr>
-                                                    <td>{{ test.Teacher }}</td>
-                                                    <td>{{ test.Test_Name }}</td>
-                                                    <td>{{ test.For_Number }}</td>
-                                                    <td>{{ test.Questions|length }}</td>
-                                                    {% if session.user_type == 'student' %}
-                                                    <td>
-                                                        <script>console.log("{{ ids }}")</script>
-                                                        {% if test.id in ids %}
-                                                            <p>Completed with grade: {{ ids[test.id] }}</p>
-                                                        {% else %}
-                                                            <a class="nav-link" href="/start_test/{{ test.id }}">
-                                                                <p>Start Test</p>
-                                                            </a>
-                                                        {% endif %}
-                                                    </td>
-                                                    {% endif %}
-                                                    {% if session.user_type == 'teacher' %}
-                                                    <td>
-                                                        <a class="nav-link" href="/test/{{ test.id }}">
-                                                            <p>Show Test</p>
-                                                        </a>
-                                                    </td>
-                                                    {% endif %}
-                                                </tr>
-                                            {% endfor %}
-                                         </tbody>
-                                     </table>
+                                 <div class="container" id="start_test_container" style="align-content: center; width: max-content; padding-top: 100px;">
+                                    <button class="btn btn-primary"  onclick="starttest()">START TEST</button>
                                  </div>
+                                 <div class="card-body table-full-width table-responsive"  id="test_container" style="visibility: hidden;">
+                                    <div class="container">
+                                        <form action="/submit_results" method="POST">
+                                            {% for question in test.Questions %}
+                                            <div class="row">
+                                                <div id="first_number" class='col-sm-4' style="text-align: center;" value="">
+                                                    <label>Number :</label>
+                                                    <input type="number" class="form-control" style="text-align: center;" value="{{ question.Number_1}}" disabled>
+                                                </div>
+                                                <div id="second_number" class='col-sm-4' style="text-align: center;" value="">
+                                                    <label>Multiplied By:</label>
+                                                    <input type="number" class="form-control" style="text-align: center;" value="{{ question.Number_2}}" disabled>
+                                                </div>
+                                                <div id="answer" class='col-sm-4'>
+                                                    <label>Your Answer</label>
+                                                     <input type="number" class="form-control" id="answer" name="answer" required>
+                                                </div>
+                                            </div>
+                                            {% endfor%}
+                                            <div class='row'>
+                                                <div class="col">
+                                                </div>
+                                                <div class="col">
+                                                    <input type="hidden" name="test_id" value="{{ test.id }}">
+                                                </div>
+                                                <div class="col">
+                                                    <button class="btn btn-success" type="submit">End Test!</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        </div>
+                                    </div>
                              </div>
                          </div>
                      </div>
@@ -181,6 +181,20 @@
         </div>
     </div>
  </body>
- 
+ <script>
+     var answers = []
+     var answer_id = 0
+    //  function nextQuestion() {
+    //      console.log('{{ test.Questions|length }}')
+    //      if(answer_id > '{{ test.Questions|length }}') {
+    //          endtest()
+    //      }
+    //     answer_id ++;
+    //  }
+     function starttest() {
+         document.getElementById('start_test_container').style.visibility = 'hidden';
+         document.getElementById('test_container').style.visibility = 'visible';
+     }
+ </script>
  </html>
  

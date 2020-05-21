@@ -97,68 +97,26 @@
              <!-- End Navbar -->
              <div class="content">
                  <div class="container-fluid">
-                     <div class="row">
-                         <div class="col-md-12">
-                             <div class="card card-plain table-plain-bg">
-                                 <div class="card-header ">
-                                     <div class="row">
-                                         <div class='col-sm-4'>
-                                             <h4 class="card-title">Test List</h4>
-                                        </div>
-                                        <div class='col-sm-4'>
-                                       </div>
-                                       <div class='col-sm-4'>
-                                            {% if session.user_type == 'teacher' %}
-                                            <a role="button" class="btn btn-primary" href="/create_test">
-                                                Create Test
-                                            </a>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                 </div>
-                                 <div class="card-body table-full-width table-responsive">
-                                     <table class="table table-hover">
-                                        <thead>
-                                            <th>Teacher</th>
-                                            <th>Test Name</th>
-                                            <th>For Number</th>
-                                            <th>Number of Questions</th>
-                                            <th></th>
-                                        </thead>
-                                        <tbody>
-                                            {% for test in tests %}
-                                                <tr>
-                                                    <td>{{ test.Teacher }}</td>
-                                                    <td>{{ test.Test_Name }}</td>
-                                                    <td>{{ test.For_Number }}</td>
-                                                    <td>{{ test.Questions|length }}</td>
-                                                    {% if session.user_type == 'student' %}
-                                                    <td>
-                                                        <script>console.log("{{ ids }}")</script>
-                                                        {% if test.id in ids %}
-                                                            <p>Completed with grade: {{ ids[test.id] }}</p>
-                                                        {% else %}
-                                                            <a class="nav-link" href="/start_test/{{ test.id }}">
-                                                                <p>Start Test</p>
-                                                            </a>
-                                                        {% endif %}
-                                                    </td>
-                                                    {% endif %}
-                                                    {% if session.user_type == 'teacher' %}
-                                                    <td>
-                                                        <a class="nav-link" href="/test/{{ test.id }}">
-                                                            <p>Show Test</p>
-                                                        </a>
-                                                    </td>
-                                                    {% endif %}
-                                                </tr>
-                                            {% endfor %}
-                                         </tbody>
-                                     </table>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
+                    <div class="card">
+                        <div class="card-body" style="text-align: center;">
+                          <h4>Congratulations {{user.first_name}} you finished the test</h4>
+                          <br>
+                          <h5>You got {{ correct }} correct answers</h5>
+                          <h5>and your grade is : {{ grade }}</h5>
+                            
+                          <div id="message" class="card-text">
+                            {% if ( grade > 7.5) %}
+                                Great job! Keep going!
+                            {% endif %}
+                            {% if ( grade < 7.5 and grade > 5 ) %}
+                                Good one, but u can get better!
+                            {% endif %}
+                            {% if (grade < 5)%}
+                                It is not so good, u need more practise!
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
                  </div>
              </div>
         <footer class="footer">
@@ -181,6 +139,5 @@
         </div>
     </div>
  </body>
- 
  </html>
  

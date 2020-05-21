@@ -1,0 +1,287 @@
+<!--
+=========================================================
+ Light Bootstrap Dashboard - v2.0.1
+=========================================================
+
+ Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard
+ Copyright 2019 Creative Tim (https://www.creative-tim.com)
+ Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard/blob/master/LICENSE)
+
+ Coded by Creative Tim
+
+=========================================================
+
+ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.  -->
+ <!DOCTYPE html>
+ <html lang="en">
+ 
+ <head>
+    <meta charset="utf-8" />
+     <link
+        href="{{ url_for('static', filename='dist/css/style.min.css')}}"
+        rel="stylesheet",
+        type="text/css"/>
+     <script type="text/javascript" src="{{ url_for('static', filename='dist/js/main.min.js') }}"></script>
+ </head>
+ 
+ <body>
+    <div class="wrapper" >
+        <div class="sidebar" data-color="blue">
+            <!--
+        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+
+        Tip 2: you can also add an image using data-image tag
+    -->
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="http://www.cs.unipi.gr" class="simple-text">
+                        Unipi
+                    </a>
+                </div>
+                <ul class="nav">
+                    <li >
+                        <a class="nav-link" href="/dashboard">
+                            <i class="nc-icon nc-chart-pie-35"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/user/{{ session.user_id }}">
+                            <i class="nc-icon nc-circle-09"></i>
+                            <p>User Profile</p>
+                        </a>
+                    </li>
+                    {% if session.user_type == 'teacher' %}
+                       <li>
+                           <a class="nav-link" href="/users">
+                               <i class="nc-icon nc-circle-09"></i>
+                               <p>Users List</p>
+                           </a>
+                       </li>
+                    {% endif %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/tests">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Test List</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+         <div class="main-panel">
+             <!-- Navbar -->
+             <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="./dashboard"> Dashboard </a>
+                    <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                        <ul class="nav navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link" data-toggle="dropdown">
+                                    <i class="nc-icon nc-palette"></i>
+                                    <span class="d-lg-none">Dashboard</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="./user/{{ session.user_id }}">
+                                    <span class="no-icon">Account</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">
+                                    <span class="no-icon">Log out</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+             <!-- End Navbar -->
+             <div class="content">
+                 <div class="container-fluid">
+                     <div class="row">
+                         <div class="col-md-12">
+                             <div class="card card-plain table-plain-bg">
+                                 <div class="card-header ">
+                                     <div class="row">
+                                         <div class='col-sm-4'>
+                                             <h4 class="card-title">New Test</h4>
+                                        </div>
+                                        <div class='col-sm-4'>
+                                       </div>
+                                       <div class='col-sm-4'>
+                                        </div>
+                                    </div>
+                                 </div>
+                                 
+                             </div>
+                             <form>
+                                <div class="row">
+                                    <div class="col-md-3 px-1">
+                                        <div class="form-group">
+                                            <label>Teacher's Name</label>
+                                            <input type="text" class="form-control" placeholder="Teacher's Name" id="teacher_name" name="teacher_name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 px-1">
+                                        <div class="form-group">
+                                            <label>Test Name</label>
+                                            <input type="text" class="form-control" placeholder="Course Name" id="test_name" name="test_name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 px-1">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 px-1">
+                                        <div class="form-group">
+                                            <label>For number</label>
+                                            <input type="number" class="form-control" placeholder="For number" id="for_number" name="for_number" min=1 max=10 oninput="setMainNumber()" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 px-1">
+                                        <div class="form-check">
+                                            <label>Test Type</label>
+                                            <select class="form-control" name="final" id="final">
+                                                <option>Simple Test</option>
+                                                <option>Final Test</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="row">
+                                        <div class='col-sm-4'>
+                                            <h4 class="card-title">Questions</h4>
+                                       </div>
+                                       <div class='col-sm-4'>
+                                           <button type="button" class="btn btn-primary" onclick="check()">
+                                               Add Question
+                                           </button>
+                                      </div>
+                                      <div class='col-sm-4'>
+                                        <button type="button" class="btn btn-fail" onclick="removeQuestion()">
+                                            Remove Question
+                                        </button>
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 pl-1">
+                                            <div class="form-group">
+                                                <label>Main Number</label>
+                                                <input type="number" class="form-control" placeholder="Main Number" id="main_number" name="main_number" min=1 max=10 disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 pl-1">
+                                            <div class="form-group">
+                                                <label>Second Number</label>
+                                                <input type="number" class="form-control" placeholder="Second Number" id="second_number" name="second_number" min=1 max=10 oninput="calcAnswer()">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 pl-1">
+                                            <div class="form-group">
+                                                <label>Answer</label>
+                                                <input type="number" class="form-control" placeholder="Answer" id="answer" name="answer" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ol id='questions' name='questions'>
+                                    </ol>
+                                <button type="button" class="btn btn-info btn-fill pull-right" id="post_test">Create Test</button>
+                                <div class="clearfix"></div>
+                            </form>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav>
+                    <ul class="footer-menu">
+                        <li>
+                            <a href="/dashboard">
+                                Home
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-center">
+                        © 2020
+                        <a href="http://www.cs.unipi.gr">Paris Maropoulos</a>
+                    </p>
+                </nav>
+            </div>
+        </footer>
+        </div>
+    </div>
+ </body>
+ <script>
+     var questions = []
+     var list = document.getElementById('questions')
+    function setMainNumber() {
+        var mainnumber = document.getElementById('for_number').value
+        document.getElementById('main_number').value = mainnumber;
+    }
+
+    function removeQuestion() {
+        list.removeChild(list.lastChild)
+    }
+
+     function addQuestion() {
+                var firstnum = document.getElementById('main_number').value;
+                var secondnum = document.getElementById('second_number').value;
+                var answer = document.getElementById('answer').value;
+                var entry = document.createElement('li');
+                entry.appendChild(document.createTextNode(firstnum))
+                entry.appendChild(document.createTextNode(' times '))
+                entry.appendChild(document.createTextNode(secondnum))
+                entry.appendChild(document.createTextNode(' equals '))
+                entry.appendChild(document.createTextNode(answer))
+                list.appendChild(entry)
+                questions.push({ f: firstnum, s: secondnum, a: answer })
+                console.log(questions);
+                
+                // Clear form
+                document.getElementById('main_number').value = document.getElementById('for_number').value;
+                document.getElementById('second_number').value = null;
+                document.getElementById('answer').value = null;
+        }
+    function check(){
+        if(document.getElementById('main_number').value != '' && document.getElementById('second_number').value != '' && document.getElementById('answer').value != '')
+        {
+            addQuestion();
+        }
+    }
+
+    function calcAnswer(){
+        var firstnum = document.getElementById('main_number').value;
+        var secondnum = document.getElementById('second_number').value;
+        document.getElementById('answer').value = firstnum * secondnum;
+
+    }
+ </script>
+<script>
+    $("#post_test").click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url:"/create_test",
+            type: "POST",
+            data: JSON.stringify({"data": questions,
+                                "teacher_name": document.getElementById('teacher_name').value,
+                                "test_name": document.getElementById('test_name').value,
+                                "for_number": document.getElementById('for_number').value,
+                                "final": document.getElementById('final').value}),
+            contentType: 'application/json; charset=utf-8',
+            success: function(resp){
+                console.log("success");
+                location.href = "/tests"
+            }
+        })
+    })
+</script>
+ </html>
+ 

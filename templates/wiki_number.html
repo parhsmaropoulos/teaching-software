@@ -103,56 +103,28 @@
                                  <div class="card-header ">
                                      <div class="row">
                                          <div class='col-sm-4'>
-                                             <h4 class="card-title">Test List</h4>
+                                             <h4 class="card-title">{{ number }}'s wiki!</h4>
                                         </div>
                                         <div class='col-sm-4'>
                                        </div>
-                                       <div class='col-sm-4'>
-                                            {% if session.user_type == 'teacher' %}
-                                            <a role="button" class="btn btn-primary" href="/create_test">
-                                                Create Test
-                                            </a>
-                                            {% endif %}
-                                        </div>
                                     </div>
                                  </div>
                                  <div class="card-body table-full-width table-responsive">
                                      <table class="table table-hover">
                                         <thead>
-                                            <th>Teacher</th>
-                                            <th>Test Name</th>
-                                            <th>For Number</th>
-                                            <th>Number of Questions</th>
+                                            <th>Main number</th>
+                                            <th>Multiplied By</th>
+                                            <th>Equals</th>
                                             <th></th>
                                         </thead>
                                         <tbody>
-                                            {% for test in tests %}
-                                                <tr>
-                                                    <td>{{ test.Teacher }}</td>
-                                                    <td>{{ test.Test_Name }}</td>
-                                                    <td>{{ test.For_Number }}</td>
-                                                    <td>{{ test.Questions|length }}</td>
-                                                    {% if session.user_type == 'student' %}
-                                                    <td>
-                                                        <script>console.log("{{ ids }}")</script>
-                                                        {% if test.id in ids %}
-                                                            <p>Completed with grade: {{ ids[test.id] }}</p>
-                                                        {% else %}
-                                                            <a class="nav-link" href="/start_test/{{ test.id }}">
-                                                                <p>Start Test</p>
-                                                            </a>
-                                                        {% endif %}
-                                                    </td>
-                                                    {% endif %}
-                                                    {% if session.user_type == 'teacher' %}
-                                                    <td>
-                                                        <a class="nav-link" href="/test/{{ test.id }}">
-                                                            <p>Show Test</p>
-                                                        </a>
-                                                    </td>
-                                                    {% endif %}
-                                                </tr>
-                                            {% endfor %}
+                                           {% for i in range(0,10) %}
+                                            <tr>
+                                                <td>{{ number }}</td>
+                                                <td>{{ i }}</td>
+                                                <td>{{ number*i }}</td>
+                                            </tr>
+                                           {% endfor %}
                                          </tbody>
                                      </table>
                                  </div>

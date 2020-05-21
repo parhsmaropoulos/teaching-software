@@ -1,0 +1,331 @@
+<!--
+=========================================================
+ Light Bootstrap Dashboard - v2.0.1
+=========================================================
+
+ Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard
+ Copyright 2019 Creative Tim (https://www.creative-tim.com)
+ Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard/blob/master/LICENSE)
+
+ Coded by Creative Tim
+
+=========================================================
+
+ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.  -->
+ <!DOCTYPE html>
+ <html lang="en">
+ 
+ <head>
+     <meta charset="utf-8" />
+     <link
+        href="{{ url_for('static', filename='dist/css/style.min.css')}}"
+        rel="stylesheet",
+        type="text/css"/>
+     <script src="{{ url_for('static', filename='dist/js/main.min.js') }}"></script>
+ </head>
+ 
+ <body>
+     <div class="wrapper">
+         <div class="sidebar" data-color="blue">
+             <!--
+         Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+ 
+         Tip 2: you can also add an image using data-image tag
+     -->
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="http://www.cs.unipi.gr" class="simple-text">
+                        Unipi
+                    </a>
+                </div>
+                <ul class="nav">
+                    <li>
+                        <a class="nav-link" href="/dashboard">
+                            <i class="nc-icon nc-chart-pie-35"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/user/{{ session.user_id }}">
+                            <i class="nc-icon nc-circle-09"></i>
+                            <p>User Profile</p>
+                        </a>
+                    </li>
+                    {% if session.user_type == 'teacher' %}
+                        <li>
+                            <a class="nav-link" href="/users">
+                                <i class="nc-icon nc-circle-09"></i>
+                                <p>Users List</p>
+                            </a>
+                        </li>
+                     {% endif %}
+                    <li>
+                        <a class="nav-link" href="/tests">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Test List</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+         <div class="main-panel">
+             <!-- Navbar -->
+             <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/dashboard"> Dashboard </a>
+                    <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                        <ul class="nav navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link" data-toggle="dropdown">
+                                    <i class="nc-icon nc-palette"></i>
+                                    <span class="d-lg-none">Dashboard</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/user/{{ session.user_id }}">
+                                    <span class="no-icon">Account</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">
+                                    <span class="no-icon">Log out</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+             <!-- End Navbar -->
+             <div class="content">
+                 <div class="container-fluid">
+                     <div class="row">
+                         <div class="col-md-8">
+                             <div class="card">
+                                 <div class="card-header">
+                                     <h4 class="card-title">{{ user.first_name }}'s Profile</h4>
+                                 </div>
+                                 <div class="card-body">
+                                     <form>
+                                         <div class="row">
+                                             <div class="col-md-3 px-1">
+                                                 <div class="form-group">
+                                                     <label>Username</label>
+                                                     <input type="text" class="form-control"  value="{{ user.username }}" disabled>
+                                                 </div>
+                                             </div>
+                                             <div class="col-md-4 pl-1">
+                                                 <div class="form-group">
+                                                     <label for="exampleInputEmail1">Type</label>
+                                                     <select name="type" class="form-control" disabled>
+                                                        <!-- <option value="teacher">Teacher</option> -->
+                                                        <option value="student">Student</option>
+                                                    </select>
+                                                 </div>
+                                             </div>
+                                             <div class="col-md-4 pl-1">
+                                                <div class="form-group">
+                                                    <label for="age">Age</label>
+                                                    <input type="number" class="form-control" value="{{ user.age }}" disabled>
+                                                </div>
+                                            </div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="col-md-6 pr-1">
+                                                 <div class="form-group">
+                                                     <label>First Name</label>
+                                                     <input type="text" class="form-control"  value="{{ user.first_name }}" disabled>
+                                                 </div>
+                                             </div>
+                                             <div class="col-md-6 pl-1">
+                                                 <div class="form-group">
+                                                     <label>Last Name</label>
+                                                     <input type="text" class="form-control" placeholder="Last Name" value="{{ user.last_name }}" disabled>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="col-md-12">
+                                                 <div class="form-group">
+                                                     <label>Email</label>
+                                                     <input type="text" class="form-control" placeholder="Email" value="{{ user.email }}" disabled>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </form>
+                                 </div>
+                             </div>
+                         </div>
+                         <!-- Image -->
+                         <div class="col-md-4">
+                             <div class="card card-user">
+                                 <div class="card-image">
+                                     <img src="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400" alt="...">
+                                 </div>
+                                 <div class="card-body">
+                                     <div class="author">
+                                         <a href="#">
+                                             <img class="avatar border-gray" src="{{ url_for('show_image', id=user.id) }}" alt="...">
+                                             <h5 class="title">{{ user.first_name }} {{ user.last_name }}</h5>
+                                         </a>
+                                         <p class="description">
+                                             {{ user.username }}
+                                         </p>
+                                     </div>
+                                     <p class="description text-center">
+                                        Students Description
+                                     </p>
+                                 </div>
+                                 <hr>
+                             </div>
+                         </div>
+                     </div>
+                    <!-- Grades -->
+                     <div class="content">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-plain table-plain-bg">
+                                        <div class="card-header ">
+                                            <h4 class="card-title">{{ user.first_name }}'s Grades</h4>
+                                        </div>
+                                        <div class="card-body table-full-width table-responsive">
+                                            <table class="table table-hover">
+                                               <thead>
+                                                   <th>Grade</th>
+                                                   <th>Test for number</th>
+                                               </thead>
+                                               <tbody>
+                                                   {% for grade in grades %}
+                                                       <tr>
+                                                           <td>{{ grade.grade }}</td>
+                                                           <td>{{ grade.grade_for_number_test }}</td>
+                                                   {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Final Grades -->
+                    <div class="content">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-plain table-plain-bg">
+                                        <div class="card-header ">
+                                            <h4 class="card-title">{{ user.first_name }}'s Final Grades</h4>
+                                        </div>
+                                        <div class="card-body table-full-width table-responsive">
+                                            <table class="table table-hover">
+                                               <thead>
+                                                   <th>Grade</th>
+                                                   <th>Test for number</th>
+                                               </thead>
+                                               <tbody>
+                                                   {% for grade in finals %}
+                                                       <tr>
+                                                           <td>{{ grade.grade }}</td>
+                                                           <td>{{ grade.grade_for_number_test }}</td>
+                                                        </tr>
+                                                   {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Grades Progress Bars -->
+                    <div class="content">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-plain table-plain-bg">
+                                        <div class="card-header ">
+                                            <h4 class="card-title">Progress Bars</h4>
+                                        </div>
+                                        <div class="progress">
+                                            <h5>Number 1:</h5><div class="progress-bar" role="progressbar" id="bar_1" aria-valuemin="0" aria-valuemax="100">{{ grades_perc[1] }}%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <h5>Number 2:</h5><div class="progress-bar" role="progressbar" id="bar_2" aria-valuemin="0" aria-valuemax="100">{{ grades_perc[2] }}%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <h5>Number 3:</h5><div class="progress-bar" role="progressbar" id="bar_3" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ grades_perc[3] }}%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <h5>Number 4:</h5><div class="progress-bar" role="progressbar" id="bar_4" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ grades_perc[4] }}%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <h5>Number 5:</h5><div class="progress-bar" role="progressbar" id="bar_5" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ grades_perc[5] }}%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <h5>Number 6:</h5><div class="progress-bar" role="progressbar" id="bar_6" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ grades_perc[6] }}%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <h5>Number 7:</h5><div class="progress-bar" role="progressbar" id="bar_7"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ grades_perc[7] }}%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <h5>Number 8:</h5><div class="progress-bar" role="progressbar" id="bar_8"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ grades_perc[8] }}%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <h5>Number 9:</h5><div class="progress-bar" role="progressbar" id="bar_9" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ grades_perc[9] }}%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <h5>Number 10:</h5><div class="progress-bar" role="progressbar" id="bar_10" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ grades_perc[9] }}%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+             </div>
+            <footer class="footer">
+                <div class="container-fluid">
+                    <nav>
+                        <ul class="footer-menu">
+                            <li>
+                                <a href="/dashboard">
+                                    Home
+                                </a>
+                            </li>
+                        </ul>
+                        <p class="copyright text-center">
+                            ©
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script>
+                            <a href="http://www.cs.unipi.gr">Paris Maropoulos</a>
+                        </p>
+                    </nav>
+                </div>
+            </footer>
+        </div>
+    </div>
+ </body>
+ <script>
+    document.getElementById("bar_1").style.width = "{{ grades_perc[1] }}%";
+    document.getElementById("bar_2").style.width = "{{ grades_perc[2] }}%";
+    document.getElementById("bar_3").style.width = '{{ grades_perc[3] }}%';
+    document.getElementById("bar_4").style.width = '{{ grades_perc[4] }}%';
+    document.getElementById("bar_5").style.width = '{{ grades_perc[5] }}%';
+    document.getElementById("bar_6").style.width = '{{ grades_perc[6] }}%';
+    document.getElementById("bar_7").style.width = '{{ grades_perc[7] }}%';
+    document.getElementById("bar_8").style.width = '{{ grades_perc[8] }}%';
+    document.getElementById("bar_9").style.width = '{{ grades_perc[9] }}%';
+    document.getElementById("bar_10").style.width = '{{ grades_perc[10] }}%';
+
+</script>
+ </html>
+ 

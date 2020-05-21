@@ -1,2 +1,22 @@
 # SEND REQUEST
 GET  http://localhost:5000/users
+
+
+###
+# SEND REQUEST
+GET  http://localhost:5000/tests
+
+
+###
+
+# SEND REQUEST
+POST  http://localhost:5000/tests
+content-type : application/x-www-form-urlencoded
+
+num1=1&num2=2&answer=2&teacher_name=paris&test_name=parismats
+
+
+###
+
+# SEND REQUEST
+GET http://localhost:5000/test/5ea401e0a6850f5b0363bbd9

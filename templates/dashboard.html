@@ -1,25 +1,181 @@
-<!DOCTYPE html>
-<html>
-    <body>
-        <table style="width: 100%;">
-            <tr>
-                <th>Number 1</th>
-                <th>Number 2</th>
-                <th>Answer</th>
-            </tr>
-            {% for test in tests %}
-            <tr style="text-align: center;">
-                <td>{{ test.Questions[0].Number_1 }}</td>
-                <td>{{ test.Questions[0].Number_2 }}</td>
-                <td><input placeholder="answer" name="answer"></td>
-            </tr>
-            {% endfor %}
-        </table>
-    </body>
-</html>
-        <!-- {% for test in tests %}
-        <div>{{ test.Teacher + ':' + test.Test_Name  +" : "  }} Created At {{ test.Created_At}}</div>
-            {% for question in test.Questions %}
-            <div>SKATA {{ question.Number_1 , " times ",  question.Number_2  ," equals ",   question.Answer }}</div>
-            {% endfor %}
-        {% endfor %} -->
+<!-- 
+=========================================================
+ Light Bootstrap Dashboard - v2.0.1
+=========================================================
+
+ Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard
+ Copyright 2019 Creative Tim (https://www.creative-tim.com)
+ Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard/blob/master/LICENSE)
+
+ Coded by Creative Tim
+
+=========================================================
+
+ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.  -->
+ <!DOCTYPE html>
+
+ <html lang="en">
+ 
+ <head>
+     <meta charset="utf-8" />
+     <link
+        href="{{ url_for('static', filename='dist/css/style.min.css')}}"
+        rel="stylesheet",
+        type="text/css"/>
+     <script src="{{ url_for('static', filename='dist/js/main.min.js') }}"></script>
+ </head>
+ 
+ <body>
+     <div class="wrapper" >
+         <div class="sidebar" data-color="blue">
+             <!--
+         Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+ 
+         Tip 2: you can also add an image using data-image tag
+     -->
+             <div class="sidebar-wrapper">
+                 <div class="logo">
+                     <a href="http://www.cs.unipi.gr" class="simple-text">
+                         Unipi
+                     </a>
+                 </div>
+                 <ul class="nav">
+                     <li class="nav-item active">
+                         <a class="nav-link" href="/dashboard">
+                             <i class="nc-icon nc-chart-pie-35"></i>
+                             <p>Dashboard</p>
+                         </a>
+                     </li>
+                     <li>
+                         <a class="nav-link" href="/user/{{ session.user_id }}">
+                             <i class="nc-icon nc-circle-09"></i>
+                             <p>User Profile</p>
+                         </a>
+                     </li>
+                     {% if session.user_type == 'teacher' %}
+                        <li>
+                            <a class="nav-link" href="./users">
+                                <i class="nc-icon nc-circle-09"></i>
+                                <p>Users List</p>
+                            </a>
+                        </li>
+                     {% endif %}
+                     <li>
+                         <a class="nav-link" href="./tests">
+                             <i class="nc-icon nc-notes"></i>
+                             <p>Test List</p>
+                         </a>
+                     </li>
+                 </ul>
+             </div>
+         </div>
+         <div class="main-panel">
+             <!-- Navbar -->
+             <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+                 <div class="container-fluid">
+                     <a class="navbar-brand" href="/dashboard"> Dashboard </a>
+                     <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                         <span class="navbar-toggler-bar burger-lines"></span>
+                         <span class="navbar-toggler-bar burger-lines"></span>
+                         <span class="navbar-toggler-bar burger-lines"></span>
+                     </button>
+                     <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                         <ul class="navbar-nav ml-auto">
+                             <li class="nav-item">
+                                 <a class="nav-link" href="./user/{{ session.user_id }}">
+                                     <span class="no-icon">Account</span>
+                                 </a>
+                             </li>
+                             <li class="nav-item">
+                                 <a class="nav-link" href="/logout">
+                                     <span class="no-icon">Log out</span>
+                                 </a>
+                             </li>
+                         </ul>
+                     </div>
+                 </div>
+             </nav>
+             <!-- End Navbar -->
+             <div class="content">
+                 <div class="container-fluid">
+                     <div class="row">
+                         <div class="col-md-4">
+                             <div class="card ">
+                                 <div class="card-header ">
+                                     <h4 class="card-title">User Stats</h4>
+                                     <p class="card-category">Last Test Performance</p>
+                                 </div>
+                                 <div class="card-body ">
+                                     <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
+                                     <hr>
+                                     <div class="stats">
+                                         <i class="fa fa-clock-o"></i> TIme?
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-md-8">
+                             <div class="card ">
+                                 <div class="card-header ">
+                                     <h4 class="card-title">User Weakness</h4>
+                                 </div>
+                                 <div class="card-body ">
+                                     
+                                     <ul>
+                                         <h4>Medium to low performance</h4>
+                                         {% for i in grades_perc %}
+                                            {% if grades_perc[i] > 50 and grades_perc[i] < 75 %}
+                                            <li>Number {{ i }} with average grade {{ grades_perc[i] }}</li>
+                                            {% endif %}
+                                         {% endfor %}
+                                         <h4>Really low performance</h4>
+                                         {% for i in grades_perc %}
+                                            {% if grades_perc[i] < 50 %}
+                                            <li>Number {{ i }} with average grade {{ grades_perc[i] }} <a class="btn" href="{{ url_for('wiki_number', number = i)}}">Show wiki!</a></li>
+                                            {% endif %}
+                                         {% endfor %}
+                                     </ul>
+                                 </div>
+                                 <div class="card-footer ">
+                                     <div class="legend">
+                                     </div>
+                                     <div class="stats">
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <footer class="footer">
+                 <div class="container-fluid">
+                     <nav>
+                         <ul class="footer-menu">
+                             <li>
+                                 <a href="/dashboard">
+                                     Home
+                                 </a>
+                             </li>
+                         </ul>
+                         <p class="copyright text-center">
+                             © 2020
+                             <a href="http://www.cs.unipi.gr">Paris Maropoulos</a>
+                         </p>
+                     </nav>
+                 </div>
+             </footer>
+         </div>
+     </div>
+ </body>
+ <script type="text/javascript">
+     $(document).ready(function() {
+         // Javascript method's body can be found in assets/js/demos.js
+         demo.initDashboardPageCharts();
+ 
+         demo.showNotification();
+ 
+     });
+ </script>
+ 
+ </html>
+ 
