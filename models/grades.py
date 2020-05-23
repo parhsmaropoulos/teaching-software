@@ -1,4 +1,6 @@
 from mongoengine import *
+from bson import ObjectId
+
 connect('Teaching_Software')
 
 class Grade(Document):
@@ -25,6 +27,18 @@ def get_grades_by_username(f, u):
     if f == True:
         grades = FinalGrade.objects(username = u)
     return grades
+
+def get_top_grades_per_test(u):
+    max_grades ={}
+    grades = Grade.objects(username = u)
+    for grade in grades:
+        id = ObjectId(grade.test_id)
+        if id in max_grades:
+            if max_grades[id] < grade.grade:
+                max_grades[id] = grade.grade
+        else:
+            max_grades[id] = grade.grade
+    return max_grades
 
 def get_grades_percentages_per_username_per_test(u):
     grade_percentages = {}

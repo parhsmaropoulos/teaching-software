@@ -56,14 +56,14 @@ def login_user(e, p):
     error = ""
     logged_in = False
     id = 0
-    user_type = ""
+    user_type = " "
     user_id = 0
     ### Check for email ###
     try:
         usr = User.objects.get(email = e)
     except:
         error = "Email does not exist!"
-        return error
+        return (error, logged_in, user_type, user_id)
     ### Check for password match ###
     if error == "":
         if (Bcrypt.check_password_hash('', usr.password, p)):
@@ -94,3 +94,24 @@ def get_test_results(username):
         id = ObjectId(grade.test_id)
         ids[id] = grade.grade
     return ids
+
+def get_usrnames_and_emails():
+    usnms = []
+    mails = []
+    users = User.objects()
+    for user in users:
+        usnms.append(user.username)
+        mails.append(user.email)
+    return usnms, mails
+
+def get_usernames():
+    usrnames = []
+    for user in User.objects():
+        usrnames.append(user.username)
+    return usrnames
+
+def get_emails():
+    emails = []
+    for user in User.objects():
+        emails.append(user.email)
+    return emails

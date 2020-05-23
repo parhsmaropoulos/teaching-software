@@ -192,7 +192,7 @@
                                     </div>
                                     <ol id='questions' name='questions'>
                                     </ol>
-                                <button type="button" class="btn btn-info btn-fill pull-right" id="post_test">Create Test</button>
+                                <button type="submit" class="btn btn-info btn-fill pull-right" id="post_test">Create Test</button>
                                 <div class="clearfix"></div>
                             </form>
                          </div>
@@ -266,21 +266,31 @@
  </script>
 <script>
     $("#post_test").click(function (e) {
-        e.preventDefault();
-        $.ajax({
-            url:"/create_test",
-            type: "POST",
-            data: JSON.stringify({"data": questions,
-                                "teacher_name": document.getElementById('teacher_name').value,
-                                "test_name": document.getElementById('test_name').value,
-                                "for_number": document.getElementById('for_number').value,
-                                "final": document.getElementById('final').value}),
-            contentType: 'application/json; charset=utf-8',
-            success: function(resp){
-                console.log("success");
-                location.href = "/tests"
-            }
-        })
+        var teacher_name = document.getElementById('teacher_name').value
+        var test_name = document.getElementById('test_name').value
+        var for_number = document.getElementById('for_number').value
+        var final = document.getElementById('final').value
+        if (teacher_name == '' || test_name == '' || for_number == '' || final == '')
+        {
+            alert('Error, something is missing')
+        }
+        else {
+            e.preventDefault();
+            $.ajax({
+                url:"/create_test",
+                type: "POST",
+                data: JSON.stringify({"data": questions,
+                                    "teacher_name": document.getElementById('teacher_name').value,
+                                    "test_name": document.getElementById('test_name').value,
+                                    "for_number": document.getElementById('for_number').value,
+                                    "final": document.getElementById('final').value}),
+                contentType: 'application/json; charset=utf-8',
+                success: function(resp){
+                    console.log("success");
+                    location.href = "/tests"
+                }
+            })
+        }
     })
 </script>
  </html>

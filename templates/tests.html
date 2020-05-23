@@ -136,7 +136,12 @@
                                                     <td>
                                                         <script>console.log("{{ ids }}")</script>
                                                         {% if test.id in ids %}
-                                                            <p>Completed with grade: {{ ids[test.id] }}</p>
+                                                        <div>
+                                                            <p>Completed! Max grade: {{ max_grades[test.id] }}</p>
+                                                            <a class="nav-link" href="/start_test/{{ test.id }}">
+                                                                <p>Retry</p>
+                                                            </a>
+                                                        </div>
                                                         {% else %}
                                                             <a class="nav-link" href="/start_test/{{ test.id }}">
                                                                 <p>Start Test</p>

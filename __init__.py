@@ -13,8 +13,8 @@ import io
 import numpy as np
 
 from models.tests import create_test, get_tests, Question, get_tests_by_teacher, get_test_by_id,  calculate_grade
-from models.users import create_user, get_users, login_user, get_user_by_user_id, update_user, get_test_results
-from models.grades import insert_grade, get_grades_by_username, get_grades_percentages_per_username_per_test
+from models.users import create_user, get_users, login_user, get_user_by_user_id, update_user, get_test_results,get_usrnames_and_emails, get_emails, get_usernames
+from models.grades import insert_grade, get_grades_by_username, get_grades_percentages_per_username_per_test, get_top_grades_per_test
 
 app = Flask(__name__)
 assets = Environment(app)
@@ -71,6 +71,7 @@ def index():
 @app.route('/login', methods= ['GET', 'POST'])
 def login():
     if request.method == "GET":
+        return render_template('index.html')  
         pass
     if request.method == "POST":
         session.pop('user_id', None)
@@ -82,18 +83,24 @@ def login():
         print(user_type, user_id)
         if logged_in:
             session['user_type'] = user_type
-            session['user_id'] = user_id
-            return render_template('dashboard.html', msg = msg, session = session)
-        return render_template('login.html', msg = msg)
-    return render_template('index.html')     
+            user_id = session['user_id'] = user_id
+            
+            user = get_user_by_user_id(user_id)
+            grades_perc = get_grades_percentages_per_username_per_test(user.username)
+            return render_template('dashboard.html', msg = msg, session = session, user=user, grades_perc=grades_perc)
+        return render_template('index.html', msg = msg)   
 
 @app.route('/logout', methods = ['GET'])
 def logout():
     session.clear()
     return render_template('index.html')
 
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['POST','GET'])
 def register():
+    if request.method == 'GET':
+        names, mails = get_usrnames_and_emails()
+        return render_template('register.html',names =names, mails=mails)
+    if request.method == 'POST':
         name = request.form.get("name")
         lastname = request.form.get('lastname')
         username = request.form.get('username')
@@ -108,7 +115,27 @@ def register():
             print(error)
         return render_template('index.html')
 
+@app.route('/mails', methods=['POST'])
+def get_mails_():
+    json_data = request.get_json()
+    mail = json_data['data']
+    emails = get_emails()
+    print(mail in emails)
+    if(mail in emails):
+        return 'true'
+    else:
+        return 'false'
 
+@app.route('/usernames', methods=['POST'])
+def get_usernames_():
+    json_data = request.get_json()
+    username = json_data['data']
+    usernames = get_usernames()
+    if(username in usernames):
+        return 'true'
+    else:
+        return 'false'
+   
 
 @app.route('/users')
 def resp():
@@ -155,7 +182,7 @@ def dashboard():
     user = get_user_by_user_id(user_id)
     grades_perc = get_grades_percentages_per_username_per_test(user.username)
     print(grades_perc)
-    return render_template('dashboard.html', grades_perc = grades_perc)
+    return render_template('dashboard.html', grades_perc = grades_perc, user = user)
         
 @app.route('/pushgrade', methods=['POST'])
 def pushgrade():
@@ -179,8 +206,10 @@ def tests():
         user = get_user_by_user_id(user_id)
         tests = get_tests()
         ids = get_test_results( user.username)
+        max_grades = get_top_grades_per_test(user.username)
+        print(max_grades)
         print(ids)
-        return render_template('tests.html', tests = tests, ids = ids)
+        return render_template('tests.html', tests = tests, ids = ids, max_grades = max_grades)
 
 @app.route('/create_test', methods=['GET', 'POST'])
 def create_test_form():

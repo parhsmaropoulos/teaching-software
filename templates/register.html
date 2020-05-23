@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+ <html lang="en">
+ 
+ <head>
+     <meta charset="utf-8" />
+     <link
+        href="{{ url_for('static', filename='dist/css/style.min.css')}}"
+        rel="stylesheet",
+        type="text/css"/>
+     <script src="{{ url_for('static', filename='dist/js/main.min.js') }}"></script>
+ </head>
+ <body>
+    <div id="register">
+        <h3 class="text-center text-white pt-5">Register form</h3>
+        <div class="container">
+            <div id="login-row" class="row justify-content-center align-items-center">
+                <div id="login-column" class="col-md-6">
+                    <div id="login-box" class="col-md-12">
+                        <form id="login-form" class="form"  action="/register" method="POST">
+                            <h3 class="text-center text-info">Register</h3>
+                            <div class="form-group">
+                                <label for="username" class="text-info">Username:</label>
+                                <input type="text" name="username" id="username" minlength="6" class="form-control" required>
+                                <span class="error"><p id="username_error"></p></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="text-info">Password:</label><br>
+                                <input type="password" name="logpassword" id="password" minlength="4" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="name" class="text-info">First Name:</label><br>
+                                <input type="text" name="name" id="name" class="form-control" minlength="6" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastname" class="text-info">Last Name:</label><br>
+                                <input type="text" name="lastname" id="lastname" minlength="6" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="text-info">Email:</label><br>
+                                <input type="email" name="email" id="email" class="form-control" required>
+                                <span class="error"><p id="email_error"></p></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="type" class="text-info">Type:</label><br>
+                                <select name="type" class="form-control" id = "type" onchange="showage()" required>
+                                    <option value="teacher">Teacher</option>
+                                    <option value="student">Student</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="age-block" style="visibility: hidden;">
+                                <label for="age" class="text-info">Age:</label><br>
+                                <input type="number" name="age" id="age" class="form-control" min="6" max="12" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="photo" class="text-info">Profile photo:</label><br>
+                                <input type="file" class="form-control-file" name="photo">
+                            </div>
+                            <div class="form-group">
+                                <!-- <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br> -->
+                                <input type="submit" name="submit" id="register-btn" class="btn btn-info btn-md" value="Register" disabled="true">
+                                <button class="btn btn-secondary" onclick="gologin()">Log in instead!</button>
+                                 
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $("#email").change(function (e) {
+    e.preventDefault();
+    $.ajax({
+        url:"/mails",
+        type: "POST",
+        data: JSON.stringify({"data": document.getElementById('email').value}),
+        contentType: 'application/json; charset=utf-8',
+        success: function(resp){
+            if(resp == 'true'){
+                document.getElementById('email_error').innerHTML = 'Email already exists!'
+            }else{
+                document.getElementById('email_error').innerHTML = ''
+            }
+        }
+    })
+})
+    function gologin() {
+        var href = "{{ url_for('login')}}"
+        window.location = href;
+
+    }
+$("#username").change(function (e) {
+    e.preventDefault();
+    $.ajax({
+        url:"/usernames",
+        type: "POST",
+        data: JSON.stringify({"data": document.getElementById('username').value}),
+        contentType: 'application/json; charset=utf-8',
+        success: function(resp){
+            console.log(resp)
+            if(resp == 'true'){
+                document.getElementById('username_error').innerHTML = 'Username already exists!'
+                document.getElementById('register-btn').disabled = true;
+            }else{
+                document.getElementById('username_error').innerHTML =''
+                document.getElementById('register-btn').disabled = false;
+            }
+        }
+    })
+})
+
+function showage() {
+    var selected = document.getElementById('type').value;
+    if (selected == 'student'){
+        document.getElementById('age-block').style.visibility = 'visible'
+        document.getElementById('register-btn').disabled = true;
+    }else{
+        document.getElementById('age-block').style.visibility = 'hidden'
+        document.getElementById('register-btn').disabled = false;
+    }
+}
+</script>
+ </html>

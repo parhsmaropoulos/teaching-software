@@ -98,6 +98,7 @@
              <!-- End Navbar -->
              <div class="content">
                  <div class="container-fluid">
+                    {% if session['user_type'] == 'student' %}
                      <div class="row">
                          <div class="col-md-4">
                              <div class="card ">
@@ -114,6 +115,8 @@
                                  </div>
                              </div>
                          </div>
+                         {% endif %}
+                         {% if session['user_type'] == 'student' %}
                          <div class="col-md-8">
                              <div class="card ">
                                  <div class="card-header ">
@@ -125,13 +128,13 @@
                                          <h4>Medium to low performance</h4>
                                          {% for i in grades_perc %}
                                             {% if grades_perc[i] > 50 and grades_perc[i] < 75 %}
-                                            <li>Number {{ i }} with average grade {{ grades_perc[i] }}</li>
+                                            <li>Number {{ i }} with average grade {{ grades_perc[i]/10 }}</li>
                                             {% endif %}
                                          {% endfor %}
                                          <h4>Really low performance</h4>
                                          {% for i in grades_perc %}
                                             {% if grades_perc[i] < 50 %}
-                                            <li>Number {{ i }} with average grade {{ grades_perc[i] }} <a class="btn" href="{{ url_for('wiki_number', number = i)}}">Show wiki!</a></li>
+                                            <li>Number {{ i }} with average grade {{ grades_perc[i] }} % <a class="btn" href="{{ url_for('wiki_number', number = i)}}">Show wiki!</a></li>
                                             {% endif %}
                                          {% endfor %}
                                      </ul>
@@ -142,8 +145,17 @@
                                      <div class="stats">
                                      </div>
                                  </div>
-                             </div>
-                         </div>
+                                </div>
+                            </div>
+                        {% else %}
+                        <div class="col-md-12">
+                            <div class="card">    
+                                <div class="card-body">
+                                    <h4 class="card-title">Welcome back proffesor {{ user.first_name }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
                      </div>
                  </div>
              </div>
@@ -178,4 +190,3 @@
  </script>
  
  </html>
- 

@@ -1,40 +1,89 @@
-<!DOCTYPE html>
-<html>
-    <header>
-        <title>Teaching Software</title>
-    </header>
-    <body>
-        <form action="/login" method="POST">
-            <input placeholder="mail" type="email" name="logemail">
-            <input placeholder="password" type="password" name="logpassword">
-            <input type="submit" value="Login">
-        </form>
+<!-- 
+=========================================================
+ Light Bootstrap Dashboard - v2.0.1
+=========================================================
 
-        <form action="/pushgrade" method="POST">
-            <input placeholder="grade" type="number" step="any" name="grade" min="0" max="10">
-            <input placeholder="fornum" type="number" name="for_number" min="1" max="10">
-            <input placeholder="username" type="string" name="username">
-            <input placeholder="final" type="string" name="final">
-            <input type="submit" value="Login">
-        </form>
+ Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard
+ Copyright 2019 Creative Tim (https://www.creative-tim.com)
+ Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard/blob/master/LICENSE)
 
+ Coded by Creative Tim
 
-        <form action="/register" method="POST" enctype="multipart/form-data">
-            <input placeholder="First Name" name="name" required>
-            <input placeholder="Last Name" name="lastname">
-            <input placeholder="Username" name="username" required>
-            <input placeholder="Password" name="password" type="password" required>
-            <input placeholder="Age" type="number" name="age" required>
-            <input placeholder="Email" name="email" type="email" required>
-            <select name="type">
-                <option value="teacher">Teacher</option>
-                <option value="student">Student</option>
-            </select>
-            <input type="file" class="form-control-file" name="photo">
-            <input type="submit" value="Submit">
-        </form>
-        <!-- {% for user in users %} -->
-        {{ user.first_name + ':' + user.last_name + ':' + user.email }}
-        <!-- {% endfor %} -->
-    </body>
-</html>
+=========================================================
+
+ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.  -->
+ <!DOCTYPE html>
+
+ <html lang="en">
+ 
+ <head>
+     <meta charset="utf-8" />
+     <link
+        href="{{ url_for('static', filename='dist/css/style.min.css')}}"
+        rel="stylesheet",
+        type="text/css"/>
+     <script src="{{ url_for('static', filename='dist/js/main.min.js') }}"></script>
+ </head>
+ <body onload="checkMessage()">
+    <div id="login">
+        <h3 class="text-center text-white pt-5">Login form</h3>
+        <div class="container">
+            <div id="login-row" class="row justify-content-center align-items-center">
+                <div id="login-column" class="col-md-6">
+                    <div id="login-box" class="col-md-12">
+                        <form id="login-form" class="form"  action="/login" method="POST">
+                            <h3 class="text-center text-info">Login</h3>
+                            <div class="form-group">
+                                <label for="username" class="text-info">Username:</label><br>
+                                <input type="text" name="logemail" id="username" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="text-info">Password:</label><br>
+                                <input type="password" name="logpassword" id="password" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <!-- <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br> -->
+                                <input type="submit" name="submit" class="btn btn-info btn-md" value="Log in">
+                                <a href="{{ url_for('register')}}" class="btn btn-secondary">Register here</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary" id="modal-btn" data-toggle="modal" data-target="#exampleModal" style="visibility: hidden;">
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Error login failed!</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              {{ msg }}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</body>
+<script>
+    function checkMessage() {
+        if ("{{ msg }}" != ''){
+            document.getElementById('modal-btn').click()
+        }
+    }
+        $(document).ready(function(){
+            $("#modal-btn").click(function(){
+                $("#exampleModal").modal();
+            });
+            });
+</script>
+ </html>
