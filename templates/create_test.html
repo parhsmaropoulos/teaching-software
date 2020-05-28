@@ -65,6 +65,20 @@
                             <p>Test List</p>
                         </a>
                     </li>
+                    {% if session.user_type == 'student' %}
+                    <li >
+                        <a class="nav-link" href="/theories">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Theories</p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <a class ="nav-link" href="/help" target="_blank">
+                            <i class="nc-icon nc-bulb-63"></i>
+                            <p>Help</p>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -148,7 +162,7 @@
                                     <div class="col-md-3 px-1">
                                         <div class="form-check">
                                             <label>Test Type</label>
-                                            <select class="form-control" name="final" id="final">
+                                            <select class="form-control" onchange="changemain()" name="final" id="final">
                                                 <option>Simple Test</option>
                                                 <option>Final Test</option>
                                             </select>
@@ -225,6 +239,9 @@
     function setMainNumber() {
         var mainnumber = document.getElementById('for_number').value
         document.getElementById('main_number').value = mainnumber;
+        while(list.hasChildNodes){
+            list.removeChild(list.lastChild)
+        }
     }
 
     function removeQuestion() {
@@ -262,6 +279,15 @@
         var secondnum = document.getElementById('second_number').value;
         document.getElementById('answer').value = firstnum * secondnum;
 
+    }
+    function changemain(){
+        var selected = document.getElementById('final').value
+        console.log(selected)
+        if (selected == 'Final Test'){
+            document.getElementById('main_number').disabled = false
+        }else{
+            document.getElementById('main_number').disabled = true
+        }
     }
  </script>
 <script>

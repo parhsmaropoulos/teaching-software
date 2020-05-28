@@ -87,6 +87,9 @@ def update_user(u, a, f, l, e, _id):
     )
     return user
 
+def change_user_photo(phot, _id):
+    user = User.objects.get(id = _id ).photo.replace(phot)
+    return user
 def get_test_results(username):
     ids = {}
     grades = Grade.objects(username=username)

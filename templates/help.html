@@ -1,0 +1,300 @@
+<!-- 
+=========================================================
+ Light Bootstrap Dashboard - v2.0.1
+=========================================================
+
+ Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard
+ Copyright 2019 Creative Tim (https://www.creative-tim.com)
+ Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard/blob/master/LICENSE)
+
+ Coded by Creative Tim
+
+=========================================================
+
+ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.  -->
+ <!DOCTYPE html>
+
+ <html lang="en">
+ 
+ <head>
+     <meta charset="utf-8" />
+     <link
+        href="{{ url_for('static', filename='dist/css/style.min.css')}}"
+        rel="stylesheet",
+        type="text/css"/>
+     <script src="{{ url_for('static', filename='dist/js/main.min.js') }}"></script>
+ </head>
+ 
+ <body>
+     <div class="wrapper" >
+         <div class="sidebar" data-color="blue">
+             <!--
+         Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+ 
+         Tip 2: you can also add an image using data-image tag
+     -->
+             <div class="sidebar-wrapper">
+                 <div class="logo">
+                     <a href="http://www.cs.unipi.gr" class="simple-text">
+                         Unipi
+                     </a>
+                 </div>
+                 {% if session['user_id'] != null %}
+                 <ul class="nav">
+                     <li>
+                         <a class="nav-link" href="/dashboard">
+                             <i class="nc-icon nc-chart-pie-35"></i>
+                             <p>Dashboard</p>
+                         </a>
+                     </li>
+                     <li>
+                         <a class="nav-link" href="/user/{{ session.user_id }}">
+                             <i class="nc-icon nc-circle-09"></i>
+                             <p>User Profile</p>
+                         </a>
+                     </li>
+                     {% if session.user_type == 'teacher' %}
+                        <li>
+                            <a class="nav-link" href="./users">
+                                <i class="nc-icon nc-circle-09"></i>
+                                <p>Users List</p>
+                            </a>
+                        </li>
+                     {% endif %}
+                     <li>
+                         <a class="nav-link" href="./tests">
+                             <i class="nc-icon nc-notes"></i>
+                             <p>Test List</p>
+                         </a>
+                     </li>
+                     {% if session.user_type == 'student' %}
+                    <li >
+                        <a class="nav-link" href="/theories">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Theories</p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item active">
+                        <a class ="nav-link" href="/help" target="_blank">
+                            <i class="nc-icon nc-bulb-63"></i>
+                            <p>Help</p>
+                        </a>
+                    </li>
+                 </ul>
+                 {% endif %}
+             </div>
+         </div>
+         <div class="main-panel">
+             <!-- Navbar -->
+             <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+                 <div class="container-fluid">
+                    {% if session['user_type'] != null %}
+                     <a class="navbar-brand" href="/dashboard"> Dashboard </a>
+                    {% endif %}
+                     <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                         <span class="navbar-toggler-bar burger-lines"></span>
+                         <span class="navbar-toggler-bar burger-lines"></span>
+                         <span class="navbar-toggler-bar burger-lines"></span>
+                     </button>
+                     <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                         <ul class="navbar-nav ml-auto">
+                             {% if session['user_type'] != null %}
+                             <li class="nav-item">
+                                 <a class="nav-link" href="./user/{{ session.user_id }}">
+                                     <span class="no-icon">Account</span>
+                                 </a>
+                             </li>
+                             <li class="nav-item">
+                                 <a class="nav-link" href="/logout">
+                                     <span class="no-icon">Log out</span>
+                                 </a>
+                             </li>
+                             {% else %}
+                             <li class="nav-item">
+                                <a class="nav-link" href="/">
+                                    <span class="no-icon">Log in</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                         </ul>
+                     </div>
+                 </div>
+             </nav>
+             <!-- End Navbar -->
+             <div class="content">
+                 <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title" style="text-align: center;"> Welcome to the help guide!</h4>
+                                    <p class="card-category" style="text-align: center;">We will guide you through the app step by step with the help of images</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="typography-line">
+                                        <h5>
+                                            <span>Register-Login</span>
+                                            Step 1: Register as a student/teacher giving the required informations and use your email and password to log into the app.
+                                        </h5>
+                                    </div>
+                                        <h3 class="card-title" style="text-align: center;">Teachers:</h3>
+                                        <br>
+                                    <div class="typography-line">
+                                        <h5>
+                                            <span>options</span>
+                                            As a teacher you have the following options:
+                                            <ul>
+                                                <li>Check your profile and/or change it.</li>
+                                                <li>View the users(students) list</li>
+                                                <li>View each student grades and progress.</li>
+                                                <li>Browse through the available test and explore each one in detail.</li>
+                                                <li>Create a brand new test yourself.</li>
+                                            </ul>
+                                        </h5>
+                                    </div>
+                                    <div class="typography-line">
+                                        <h5>
+                                            <span>Check-Profile</span>
+                                            Step 1: Click on the icon with title user-profile as show in the image.
+                                            <img src="/static/images/user-profile-selected.png" width="500" height="300"></img>
+                                        </h5>
+                                    </div>
+                                    <div class="typography-line">
+                                        <h5>
+                                            <span>Change-Profile</span>
+                                            Step 1: While in the profile tab, change any value you want.
+                                            <br>
+                                            Step 2: Click update button.
+                                            <img src="/static/images/update-btn.png" width="500" height="300"></img>
+
+                                        </h5>
+                                    </div>
+                                    <div class="typography-line">
+                                        <h5>
+                                            <span>View user/progress</span>
+                                            Step 1: Click on the tab with title Users List.
+                                            <br>
+                                            Step 2: Browse through the list and click the button view profile.
+                                            <br>
+                                            Step 3: Scroll down, after the details of the student there are 3 sections with grades.
+                                                <ul>
+                                                    <li>Tests (their grade, and for which number it was).</li>
+                                                    <img src="/static/images/grades.png" width="500" height="300"></img>
+
+                                                    <li>Final tests and their grades.</li>
+                                                    <li>Progress bars.</li>
+                                                    <img src="/static/images/grades-progress.png" width="500" height="300"></img>
+
+                                                </ul>
+                                            p.s.: Progress bars show the progress of each student on their tests not their finals.
+                                        </h5>
+                                    </div>
+                                    <div class="typography-line">
+                                        <h5>
+                                            <span>Tests</span>
+                                            Step 1: Click on the tab with title Test List.
+                                            <br>
+                                            Step 2: Iterate through the lists.The left one are the simple tests while the right list are the Final tests
+                                            <br>
+                                            <img src="/static/images/tests.png" width="500" height="300"></img>
+                                            Step 3: If you want to create a test click the button Create Test:
+                                            <br>
+                                            Step 4: First fill in the form with your details and the option if the test is final or not.
+                                            <br>
+                                            <img src="/static/images/create-test.png" width="500" height="300"></img>
+
+                                            Step 5: If the test is not final then the main number with be fixed and cannot be changed, while if you choose to be final
+                                            then you will be able to fill in whatever you want.
+                                            <br>
+                                            Step 6: If you have finished with a question click add question, if you have finished with all questions click submit test.
+                                        </h5>
+                                    </div>
+                                    <h3 class="card-title" style="text-align: center;">Students:</h3>
+                                        <br>
+                                    <div class="typography-line">
+                                        <h5>
+                                            <span>Options</span>
+                                            As a student u have the following options.
+                                            <ul>
+                                                <li>View/update your profile.</li>
+                                                <li>View Tests and take them.</li>
+                                                <li>View your progress.</li>
+                                                <li>Read all the available theories.</li>
+                                            </ul>
+                                        </h5>
+                                    </div>
+                                    <div class="typography-line">
+                                        <h5>
+                                            <span>Veiw/update profile</span>
+                                            Step 1: Click on the icon with title user-profile as show in the image.
+                                            <img src="/static/images/user-profile-selected.png" width="500" height="300"></img>
+                                            <br>
+                                            Step 2: Change any values you want and click the button update profile.
+                                            <img src="/static/images/update-btn.png" width="500" height="300"></img>
+                                        </h5>
+                                    </div>
+                                    <div class="typography-line">
+                                        <h5>
+                                            <span>View Tests</span>
+                                            Step 1: Click on the icon with title test list.
+                                            <br>
+                                            Step 2: There are 2 lists of tests.The left one are the regular tests and the right one the final tests.
+                                            <br>
+                                            Step 2.5: If you have already taken a test, then there will be a message whi is saying (Completed, and will output your best grade).
+                                            <br>
+                                            Step 3:To start a test or retry it if its already completed click the button as shown in the image.
+                                            <br>
+                                            Step 4: Fill all the fiels with your answer and click End Test if you are ready.There will be a message with your grade afterwards.
+                                            <img src="/static/images/student-test.png" width="500" height="300"></img>
+                                        </h5>
+                                    </div>
+                                    <div class="typography-line">
+                                        <h5>
+                                            <span>View progress</span>
+                                            Step 1: Click on the icon with title user-profile as show in the image.
+                                            <br>
+                                            Step 2: Under your details there will be 3 sections with grades.
+                                                <ul>
+                                                    <li>Normal tests grades.</li>
+                                                    <li>Final tests grades.</li>
+                                                    <li>Tests(normal) progress bars for each number.</li>
+                                                </ul>
+                                        </h5>
+                                    </div>
+                                    <div class="typography-line">
+                                        <h5>
+                                            <span>Theories</span>
+                                            Step 1: To view all the available theories, click on the icon with title theories
+                                            <img src="/static/images/wikis.png" width="500" height="300"></img>
+                                            <br>
+                                            Step 2: Click the button next to the theory you want to read.
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+             </div>
+             <footer class="footer">
+                 <div class="container-fluid">
+                     <nav>
+                         <ul class="footer-menu">
+                             <li>
+                                 <a href="/dashboard">
+                                     Home
+                                 </a>
+                             </li>
+                         </ul>
+                         <p class="copyright text-center">
+                             © 2020
+                             <a href="http://www.cs.unipi.gr">Paris Maropoulos</a>
+                         </p>
+                     </nav>
+                 </div>
+             </footer>
+         </div>
+     </div>
+ </body>
+ </html>

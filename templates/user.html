@@ -66,6 +66,20 @@
                             <p>Test List</p>
                         </a>
                     </li>
+                    {% if session.user_type == 'student' %}
+                    <li >
+                        <a class="nav-link" href="/theories">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Theories</p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <a class ="nav-link" href="/help" target="_blank">
+                            <i class="nc-icon nc-bulb-63"></i>
+                            <p>Help</p>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -83,7 +97,6 @@
                         <ul class="nav navbar-nav mr-auto">
                             <li class="nav-item">
                                 <a href="#" class="nav-link" data-toggle="dropdown">
-                                    <i class="nc-icon nc-palette"></i>
                                     <span class="d-lg-none">Dashboard</span>
                                 </a>
                             </li>
@@ -130,12 +143,14 @@
                                                     </select>
                                                  </div>
                                              </div>
+                                             {% if session['user_type'] == 'student' %}
                                              <div class="col-md-4 pl-1">
                                                 <div class="form-group">
                                                     <label for="age">Age</label>
                                                     <input type="number" class="form-control" name="age" value="{{ user.age }}">
                                                 </div>
                                             </div>
+                                            {% endif %}
                                          </div>
                                          <div class="row">
                                              <div class="col-md-6 pr-1">
@@ -181,6 +196,15 @@
                                      <p class="description text-center">
                                          Students Description
                                      </p>
+                                     <!-- <div style="text-align: center;">
+                                        <form action="/change_photo" method="POST" enctype="multipart/form-data">
+                                            <label for="photo">Add/Change photo</label><br>
+                                            <input type="file" id="photo" name="photo" style="display: none;">
+                                            <i class="nc-icon nc-simple-add" onclick="document.getElementById('photo').click();"></i>
+                                            <br>
+                                            <button type="submit" class="btn btn-primary">Change</button>
+                                        </form>
+                                     </div> -->
                                  </div>
                                  <hr>
                                  <div class="button-container mr-auto ml-auto">
@@ -197,6 +221,7 @@
                              </div>
                          </div>
                      </div>
+                     {% if session['user_type'] == 'student' %}
                      <!-- Grades -->
                      <div class="content">
                         <div class="container-fluid">
@@ -239,13 +264,11 @@
                                             <table class="table table-hover">
                                                <thead>
                                                    <th>Grade</th>
-                                                   <th>Test for number</th>
                                                </thead>
                                                <tbody>
                                                    {% for grade in finals %}
                                                        <tr>
                                                            <td>{{ grade.grade }}</td>
-                                                           <td>{{ grade.grade_for_number_test }}</td>
                                                         </tr>
                                                    {% endfor %}
                                                 </tbody>
@@ -300,6 +323,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                  </div>
              </div>
             <footer class="footer">

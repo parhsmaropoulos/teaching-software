@@ -65,6 +65,20 @@
                             <p>Test List</p>
                         </a>
                     </li>
+                    {% if session.user_type == 'student' %}
+                    <li >
+                        <a class="nav-link" href="/theories">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Theories</p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <a class ="nav-link" href="/help" target="_blank">
+                            <i class="nc-icon nc-bulb-63"></i>
+                            <p>Help</p>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

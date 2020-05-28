@@ -65,6 +65,20 @@
                             <p>Test List</p>
                         </a>
                     </li>
+                    {% if session.user_type == 'student' %}
+                    <li >
+                        <a class="nav-link" href="/theories">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Theories</p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <a class ="nav-link" href="/help" target="_blank">
+                            <i class="nc-icon nc-bulb-63"></i>
+                            <p>Help</p>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -98,7 +112,7 @@
              <div class="content">
                  <div class="container-fluid">
                      <div class="row">
-                         <div class="col-md-12">
+                         <div class="col-md-8">
                              <div class="card card-plain table-plain-bg">
                                  <div class="card-header ">
                                      <div class="row">
@@ -163,6 +177,60 @@
                                  </div>
                              </div>
                          </div>
+                         <div class="col-md-4">
+                            <div class="card card-plain table-plain-bg">
+                                <div class="card-header ">
+                                    <div class="row">
+                                        <div class='col-sm-4'>
+                                            <h4 class="card-title">Finals</h4>
+                                       </div>
+                                       <div class='col-sm-4'>
+                                      </div>
+                                   </div>
+                                </div>
+                                <div class="card-body table-full-width table-responsive">
+                                    <table class="table table-hover">
+                                       <thead>
+                                           <th>Teacher</th>
+                                           <th>Test Name</th>
+                                           <th></th>
+                                       </thead>
+                                       <tbody>
+                                           {% for final_test in final_tests %}
+                                               <tr>
+                                                   <td>{{ final_test.Teacher }}</td>
+                                                   <td>{{ final_test.Test_Name }}</td>
+                                                   {% if session.user_type == 'student' %}
+                                                   <td>
+                                                       <script>console.log("{{ ids }}")</script>
+                                                       {% if final_test.id in ids %}
+                                                       <div>
+                                                           <p>Completed! Max grade: {{ max_grades[final_test.id] }}</p>
+                                                           <a class="nav-link" href="/start_test/{{ final_test.id }}">
+                                                               <p>Retry</p>
+                                                           </a>
+                                                       </div>
+                                                       {% else %}
+                                                           <a class="nav-link" href="/start_test/{{ final_test.id }}">
+                                                               <p>Start Test</p>
+                                                           </a>
+                                                       {% endif %}
+                                                   </td>
+                                                   {% endif %}
+                                                   {% if session.user_type == 'teacher' %}
+                                                   <td>
+                                                       <a class="nav-link" href="/test/{{ final_test.id }}">
+                                                           <p>Show Test</p>
+                                                       </a>
+                                                   </td>
+                                                   {% endif %}
+                                               </tr>
+                                           {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                      </div>
                  </div>
              </div>

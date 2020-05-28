@@ -12,8 +12,8 @@ import json
 import io
 import numpy as np
 
-from models.tests import create_test, get_tests, Question, get_tests_by_teacher, get_test_by_id,  calculate_grade
-from models.users import create_user, get_users, login_user, get_user_by_user_id, update_user, get_test_results,get_usrnames_and_emails, get_emails, get_usernames
+from models.tests import create_test, get_tests, Question, get_tests_by_teacher, get_test_by_id,  calculate_grade, get_final_tests
+from models.users import create_user, get_users, login_user, get_user_by_user_id, update_user, get_test_results,get_usrnames_and_emails, get_emails, get_usernames, change_user_photo
 from models.grades import insert_grade, get_grades_by_username, get_grades_percentages_per_username_per_test, get_top_grades_per_test
 
 app = Flask(__name__)
@@ -104,10 +104,14 @@ def register():
         name = request.form.get("name")
         lastname = request.form.get('lastname')
         username = request.form.get('username')
-        password = request.form.get('password')
+        password = request.form.get('logpassword')
+        print(name,lastname,username,password)
         photo = request.files['photo']
         pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
         age = request.form.get('age')
+        print(age)
+        if age == '':
+            age = 10
         email = request.form.get("email")
         type = request.form.get("type")
         error = create_user(name, lastname, username, pw_hash, age, email, type, photo)
@@ -171,6 +175,13 @@ def update_user_by_id(id):
     user = update_user(username, age, first_name, last_name, email, id)
     return redirect(url_for('get_user_by_id', id=id))
 
+@app.route('/change_photo', methods=['POST'])
+def change_photo():
+    user_id = session['user_id']
+    photo = request.files['photo']
+    change_user_photo(photo, user_id)
+    return 'true'
+
 @app.route('/show/<string:id>')
 def show_image(id):
     user = get_user_by_user_id(id)
@@ -207,9 +218,9 @@ def tests():
         tests = get_tests()
         ids = get_test_results( user.username)
         max_grades = get_top_grades_per_test(user.username)
-        print(max_grades)
-        print(ids)
-        return render_template('tests.html', tests = tests, ids = ids, max_grades = max_grades)
+        final_tests = get_final_tests()
+        print(final_tests[0].Teacher)
+        return render_template('tests.html', tests = tests, ids = ids, max_grades = max_grades, final_tests = final_tests)
 
 @app.route('/create_test', methods=['GET', 'POST'])
 def create_test_form():
@@ -266,6 +277,14 @@ def submit_res():
 @app.route('/number_wiki/<int:number>')
 def wiki_number(number):
     return render_template('wiki_number.html', number= number)
+
+@app.route('/theories')
+def show_theories():
+    return render_template('theories.html')
+
+@app.route('/help')
+def show_help():
+    return render_template('help.html')
 
 if __name__ == '__main__':
     app.secret_key = b'\x11\x00e\x90\x93{\xb5\x15?\x97Q\xce\xf3\xe1\xffc'

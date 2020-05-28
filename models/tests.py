@@ -23,14 +23,26 @@ def create_test(data):
     for question in data['data']:
         q = Question(Number_1 = question['f'], Number_2 = question['s'], Answer = question['a'])
         questions.append(q)
-    test = Test(Teacher = data['teacher_name'], Test_Name = data['test_name'],Final = data['final'], Questions = questions, For_Number = data['for_number']).save()
+    if (data['final'] == 'Simple Test'):
+        Final = False
+    else:
+        Final =True;
+    test = Test(Teacher = data['teacher_name'], Test_Name = data['test_name'],Final = Final, Questions = questions, For_Number = data['for_number']).save()
     return test
         
 def get_tests():
     tests = []
     for test in Test.objects:
-        tests.append(test)
+        if (test.Final != True):
+            tests.append(test)
     return tests
+
+def get_final_tests():
+    final_tests = []
+    for test in Test.objects():
+        if test.Final:
+            final_tests.append(test)
+    return final_tests
 
 def get_tests_by_teacher(teacher_name):
     tests = []

@@ -52,21 +52,21 @@
                         </a>
                     </li>
                     {% if session.user_type == 'teacher' %}
-                       <li class="nav-item active">
+                       <li>
                            <a class="nav-link" href="/users">
                                <i class="nc-icon nc-circle-09"></i>
                                <p>Users List</p>
                            </a>
                        </li>
                     {% endif %}
-                    <li>
+                    <li >
                         <a class="nav-link" href="/tests">
                             <i class="nc-icon nc-notes"></i>
                             <p>Test List</p>
                         </a>
                     </li>
                     {% if session.user_type == 'student' %}
-                    <li >
+                    <li class="nav-item active">
                         <a class="nav-link" href="/theories">
                             <i class="nc-icon nc-notes"></i>
                             <p>Theories</p>
@@ -93,15 +93,6 @@
                         <span class="navbar-toggler-bar burger-lines"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                        <ul class="nav navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link" data-toggle="dropdown">
-                                    <i class="nc-icon nc-palette"></i>
-                                    <span class="d-lg-none">Dashboard</span>
-                                </a>
-                            </li>
-                            
-                        </ul>
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
                                 <a class="nav-link" href="./user/{{ session.user_id }}">
@@ -123,31 +114,19 @@
                      <div class="row">
                          <div class="col-md-12">
                              <div class="card card-plain table-plain-bg">
-                                 <div class="card-header ">
-                                     <h4 class="card-title">Student List</h4>
-                                 </div>
                                  <div class="card-body table-full-width table-responsive">
                                      <table class="table table-hover">
                                         <thead>
-                                            <th>Username</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Email</th>
-                                            <th>Age</th>
-                                            <th>Details</th>
+                                            <th>Number</th>
+                                            <th>Action</th>
+                                            <th></th>
                                         </thead>
                                         <tbody>
-                                            {% for user in users %}
-                                            {% if user.type != 'teacher' %}
-                                                <tr>
-                                                    <td>{{ user.username }}</td>
-                                                    <td>{{ user.first_name }}</td>
-                                                    <td>{{ user.last_name }}</td>
-                                                    <td>{{ user.email }}</td>
-                                                    <td>{{ user.age }}</td>
-                                                    <td><a href="{{ url_for('get_userlist_user', id=user.id)}}">View profile</a></td>
-                                                </tr>
-                                            {% endif %}
+                                            {% for i in range(1,11)%}
+                                            <tr>
+                                                <td>{{ i }}</td>
+                                                <td><a class="btn" href="{{ url_for('wiki_number', number = i)}}">Show wiki!</a></td>
+                                            </tr>
                                             {% endfor %}
                                          </tbody>
                                      </table>
@@ -168,10 +147,7 @@
                         </li>
                     </ul>
                     <p class="copyright text-center">
-                        ©
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script>
+                        © 2020
                         <a href="http://www.cs.unipi.gr">Paris Maropoulos</a>
                     </p>
                 </nav>

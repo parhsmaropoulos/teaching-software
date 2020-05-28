@@ -17,7 +17,7 @@
             <div id="login-row" class="row justify-content-center align-items-center">
                 <div id="login-column" class="col-md-6">
                     <div id="login-box" class="col-md-12">
-                        <form id="login-form" class="form"  action="/register" method="POST">
+                        <form id="login-form" class="form"  action="/register" method="POST" enctype="multipart/form-data">
                             <h3 class="text-center text-info">Register</h3>
                             <div class="form-group">
                                 <label for="username" class="text-info">Username:</label>
@@ -50,7 +50,7 @@
                             </div>
                             <div class="form-group" id="age-block" style="visibility: hidden;">
                                 <label for="age" class="text-info">Age:</label><br>
-                                <input type="number" name="age" id="age" class="form-control" min="6" max="12" required>
+                                <input type="number" name="age" id="age" class="form-control" min="6" max="12">
                             </div>
                             <div class="form-group">
                                 <label for="photo" class="text-info">Profile photo:</label><br>
@@ -97,7 +97,7 @@ $("#username").change(function (e) {
         url:"/usernames",
         type: "POST",
         data: JSON.stringify({"data": document.getElementById('username').value}),
-        contentType: 'application/json; charset=utf-8',
+        contentType: 'application/json;  charset=utf-8',
         success: function(resp){
             console.log(resp)
             if(resp == 'true'){
